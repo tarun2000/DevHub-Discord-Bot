@@ -91,5 +91,3 @@ curl http://localhost:3000/leaderboard | jq .
 
 - `githubUsername` and `discordId` are unique in the database; attempting to create a duplicate `githubUsername` will fail unless handled by the client.
 - Webhook endpoint always returns HTTP 200 and logs errors (so GitHub retries are not triggered by transient processing errors).
-
-If you'd like, I can add a small admin endpoint to inspect a user's events or add tests for the leaderboard service.
