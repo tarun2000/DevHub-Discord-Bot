@@ -12,9 +12,35 @@ export async function linkGithub(req: Request, res: Response) {
     }
 
     const user: DBUser = await userService.link(discordId, githubUsername);
-    return res.status(200).json({ ok: true, user });
+
+    // Transform dates to ISO strings for frontend
+    const transformedUser = {
+      ...user,
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
+    };
+
+    return res.status(200).json({ ok: true, user: transformedUser });
   } catch (err) {
     console.error("linkGithub error", err);
+    return res.status(500).json({ error: "internal_server_error" });
+  }
+}
+
+export async function getUsers(req: Request, res: Response) {
+  try {
+    const users: DBUser[] = await userService.getAll();
+
+    // Transform dates to ISO strings for frontend
+    const transformedUsers = users.map((user) => ({
+      ...user,
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
+    }));
+
+    return res.status(200).json({ users: transformedUsers });
+  } catch (err) {
+    console.error("getUsers error", err);
     return res.status(500).json({ error: "internal_server_error" });
   }
 }

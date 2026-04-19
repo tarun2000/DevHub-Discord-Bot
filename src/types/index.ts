@@ -13,6 +13,17 @@ export interface DBUser {
   discordId: string;
   githubUsername: string;
   score: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface DBEvent {
+  id: string;
+  userId: string;
+  type: string;
+  points: number;
+  createdAt: Date;
+  user?: {
+    githubUsername: string;
+  };
 }
